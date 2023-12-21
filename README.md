@@ -145,4 +145,3 @@ For the forum project you must use Docker.
 
 # Authors
 - @ymukhame
-- @gatzba
