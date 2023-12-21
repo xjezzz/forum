@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/bootstrap2.min.css">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <title>Forum</title>
+</head>
+<body class="d-flex flex-column min-vh-100" style="background-color:rgba(85, 77, 77, 0.288)">
+<div class="text-center">
+    <a href="/main">
+        <h1 class="display-3">Forum</h1>
+    </a>
+</div>
+<div class="container mt-5">
+    <form action="/add-post" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" placeholder="Enter title... (min 10 symbols)" name="title">
+        </div>
+        <div class="form-group">
+            <label for="post">Post</label>
+            <textarea class="form-control" id="post" rows="4" placeholder="Type here... (min 20 symbols)" name="post"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Category</label>
+            <div class="form-group">
+                {{range .}}
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="btn-check" id="{{.Id}}" name="tag" value="{{.Id}}">
+                    <label class="btn btn-outline-success" for="{{.Id}}">{{.Name}}</label>
+                </div>
+                {{end}}
+            </div>
+        </div>
+        
+        
+        <input type="file" name="myFile"/>
+        <button type="submit" class="btn btn-primary">Create post</button>
+    </form>
+</div>
+<footer class="mt-auto" style="background-color: lightblue;">
+    <p style="color:black; margin: auto; text-align:center">© Alem School 2023</p>
+  </footer>
+
+</body>
+</html>

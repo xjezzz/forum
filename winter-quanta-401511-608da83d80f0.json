@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "winter-quanta-401511",
+  "private_key_id": "608da83d80f07f63e3a5ff8226b562ca0ecd123f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDvBPUdOVm4kgT8\n2Fi+0kJ+kqvvTDjf56Rj9j0Ix5eh0mznv7CrgJewToI9n+VL79kbSU6WwL82u9u3\nu6nluF+IWFmH0jXdV3yjRmW6xlZlbVJyZB9gjxOpJJ9sBt1Ino/UJrMZdPfajIXC\nwCvNchMEjGI7MKmGhDK/npM6TsnQt9QIPocMCpJVtICvLLMIaRBUcIZXXxwJYyOQ\nhbbSu/v7bm4zzhYdUj6TwH2XphZqbH7UchDzL1+5BzoCaw3plpP2sS0qROw6YcB6\nr8sIL0a+tN39XEc7q2IamVHxXqps5JQkxF1meJncATqv8ULiqTOkbkcyXJGZdPom\nYTj46b91AgMBAAECggEAK/IT5Qsh2WMTgq9+ZZs/+YibDxTLEjPDUFO6Ng6IbQrE\n1jky0N2ERjixDoaDAJq5JqCsT+BhZ71TcO0SmDd1bRqdX3EBUVBgDJ8JXjVQNjbK\n5VhOQpEb0sn2e8SpU8w/coio/kG4vlh+0WdGxm+2Wmw7NVnFmYNd10hfFmXdCkAf\nR6WaaW0xBi9Z9jB3OjrWBkZorWgZC50ORELfv3WyyD4clZHIACSrfr5TG86hlCZE\nZlSaZNeyxUhDVjLWJbHjDFHxgqXQAktVTZyOtBQPvwT0pfQbD+dQRFaDBiBhlV+j\ndFyrFhkgv1M0NMFfgrbLfzDDo9ZlQPqCZ3JkRiIkMQKBgQD5Sse5OxTJUuU7eHW2\ntzi+2NETE3QBB7IVNx0eGgR6wJBst0fiARmoG6t+dA6V5q6Bxy5ixPwVEh2gkL/3\n4+PnoEP4OdUosovcYxAQrK5huO7CmexA1B+r7SfGC6aTvqpmx6fuplVNJOTzQg0k\n5MDYXBLN7DeurN5Eh3sxEE0ruQKBgQD1c2opWkpCVk7Q1u4b/YWX1e3ZDq5zNtig\n8sysmbW5xBhsrX+YO3Ae/uk5GDA6px6Xc+xraAowfQPo3zJhwzK8sUCKlCNvcBjH\n7qpKfvexkwr18d+8C1pKX6bdkBcgcrwOSAA4LOEiG6ggzjI17xJYHgp9HggN19jp\n3WLwtTLnnQKBgHnZLFAEab+RrgvocBjz61+VGHQrgPrz6P5npurMqr3ZG36YAyGb\nig/aHnO7hFmOnGNAmRKb197wsNyHg91FXWMcubw9gEvZIXWCUhrkXIPVYZZqp8h0\nJlrhmxw5G52Bh0afdhy23mDLlMC12zjaOsxGDMbsG7dcNXPniLZNknq5AoGAdzME\npG5/z7WAczVdz2QQg8tVxeq2V6eUDp27PjsroLqVrfmYFIMREUx0UNDpYyKT3bNj\nZknRYPjldCsomYelVTOzh1kn2E+VCUtjkegVPDyPvx8mq3jL8YCAVetK/+wYXcsj\nqCRLdTf/L2dTxROEUhzMtTRnbumbIv/rs8Abp5UCgYAJ4jEkFCGOSSuH/YrFR9xl\n80S3xEHs/aZwP/wRQQy2sVDGA/vrk5ogStXMWtdOLmEEDoa0ijgeyv600p4b7Nh8\n+k5fZRbABh9saxERhZX8Ak5y+9go0hTxmBS70IdyK5BZUJJnrEW6/ImfvszLTaWg\nc4GLxFj46JdGRh60NLxeQg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "forum-334@winter-quanta-401511.iam.gserviceaccount.com",
+  "client_id": "116616168702057045660",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/forum-334%40winter-quanta-401511.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

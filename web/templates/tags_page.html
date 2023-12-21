@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forum</title>
+  <link rel="stylesheet" href="/static/bootstrap2.min.css">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+</head>
+<body class="d-flex flex-column min-vh-100" style="background-color:rgba(85, 77, 77, 0.288)">
+<div class="text-center">
+  <a href="/main">
+    <h1 class="display-3">Forum</h1>
+  </a>
+</div>
+<div class="container mt-5">
+  <nav class="navbar navbar-expand-lg  " style="background-color:rgba(0, 102, 255, 0.205); border: blue solid 1px; margin-bottom: 20px;">
+      <p style=" margin-top: 20px; margin: 5px; color: aliceblue;"><b>Tags page</b></p>
+      <li class="nav-item" style="list-style-type:none; margin: 5px;">
+        <button type="button" class="btn btn-dark" onclick="history.back()">Back</button>
+      </li>
+    <li class="nav-item" style="list-style-type:none; margin: 5px;">
+      <a class="nav-link" href="/admin?show=reports"><button type="button" class="btn btn-outline-warning">Reports</button></a>
+    </li>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/logout"><button type="button" class="btn btn-outline-danger">Log Out</button></a>
+      </li>
+    </ul>
+  </nav>
+    <div class="card-body">
+        <form action="/create-tag" method="post">
+            <p class="card-text"><label>
+                <input type="text" class="form-control" name="tag" placeholder="Create new tag (3-10 symbols)">
+            </label></p>
+            <button type="submit" class="btn btn-success" style="margin-bottom:20px; margin-top:-10px">Add new tag</button>
+        </form>
+    </div>
+  {{range .}}
+  {{if ne .Name "No category"}}  
+  <div class="card mb-3">
+    <div class="card-body">
+      <p class="card-text">Tag ID: {{.Id}}<br>Name: <a href="/main?tag={{.Name}}" style="text-decoration:none"d><b>{{.Name}}</b></a></p>
+      <form action="/delete-tag" method="POST">
+        <button type="submit" class="btn btn-outline-danger">Delete tag</button>
+        <input type="hidden" name="tag" value="{{.Id}}">
+    </form>
+    </div>
+</div>
+{{end}}
+{{end}}
+
+</div>
+<footer class="mt-auto" style="background-color: lightblue;">
+  <p style="color:black; margin: auto; text-align:center">© Alem School 2023</p>
+</footer>
+</body>
+</html>

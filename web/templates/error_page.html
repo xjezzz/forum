@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.ErrorText}}</title>
+    <link rel="stylesheet" href="/static/bootstrap2.min.css">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+</head>
+<body class="d-flex flex-column min-vh-100" style="background-color:rgba(85, 77, 77, 0.288)">
+<div class="text-center">
+    <a href="/main">
+        <h1 class="display-3">Forum</h1>
+    </a>
+</div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="error text-center">
+                <p class="res">{{.ErrorCode}} {{.ErrorText}}</p>
+                <p class="res">{{.ErrorMessage}}</p>
+                <a href="/main">
+                    <button class="btn btn-primary">HOME</button>
+                </a>
+            </div>
+        </div>
+    </div>
+<footer class="mt-auto" style="background-color: lightblue;">
+    <p style="color:black; margin: auto; text-align:center">© Alem School 2023</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "address": "0.0.0.0:8080",
+  "driverName": "sqlite3",
+  "storagePath": "storage.db",
+  "initSQL": "config/db_init.sql",
+  "mockDataSQL": "config/mock_data.sql",
+  "certFile": "config/certificates/localhost.crt",
+  "keyfile": "config/certificates/localhost.key",
+  "maxHeaderBytes": 262144,
+  "idleTimeout": 30,
+  "readTimeout": 30,
+  "writeTimeout": 30,
+  "rateLimit": 2000
+}

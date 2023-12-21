@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forum</title>
+  <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+  <link rel="stylesheet" href="/static/bootstrap2.min.css">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+</head>
+<style>
+  #reportsContainer, #actionsContainer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 300px;
+    z-index: 1000;
+  }
+
+  /* Стили для уведомлений */
+  .notification {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Стили для уведомлений о репортах */
+  #reportsContainer .notification {
+    background-color: #e74c3c; /* Красный цвет */
+    color: #ffffff; /* Белый текст */
+  }
+
+  /* Стили для уведомлений о действиях */
+
+
+  /* Стили для ссылок внутри уведомлений */
+
+  a.notification:hover{
+    color:black;
+  }
+  /* При наведении на ссылки */
+  .notification a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+
+<body class="d-flex flex-column min-vh-100" style="background-color:rgba(85, 77, 77, 0.288)">
+<div class="text-center">
+  <a href="/main">
+    <h1 class="display-3">Forum</h1>
+  </a>
+</div>
+<div class="container mt-5">
+  <nav class="navbar navbar-expand-lg" style="background-color:rgba(0, 102, 255, 0.205); border: blue solid 1px;">
+    {{ if .IsLogged }}
+      <p style=" margin-top: 20px; margin: 5px; "><b>Welcome, {{.Username}}!</b></p>
+      {{ if eq .Role "user"}}
+      {{ if .IsRequested }}
+      <li class="nav-item" style="list-style-type:none; margin: 5px;">
+        <button type="nothing" class="btn btn-info">Moderation request sent</button>
+      </li>
+      {{ else }}
+      <li class="nav-item" style="list-style-type:none; margin: 5px;">
+        <a href="/moderation-request"><button type="submit" class="btn btn-outline-danger" >Request for moderation</button></a>
+      </li>
+      {{end}}
+      {{end}}
+    <li class="nav-item" style="list-style-type:none; margin: 5px;">
+      <a class="nav-link" href="/action"><button type="button" class="btn btn-outline-info" style="color:rgb(25, 83, 44)">Actions</button></a>
+    </li>
+    <ul class="navbar-nav ml-auto">
+    {{ if eq .Role "admin"}}
+      <li class="nav-item">
+        <a class="nav-link" href="/admin"> <button type="button" class="btn btn-dark" style="color:rgb(255, 255, 255);">Admin</button></a>
+      </li>
+      {{end}}
+      <li class="nav-item">
+        <a class="nav-link" href="/add-post"> <button type="button" class="btn btn-outline-success">Create Post</button></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout"><button type="button" class="btn btn-outline-danger">Log Out</button></a>
+      </li>
+
+    </ul>
+    {{ else }}
+    <p style=" margin-top: 20px; margin: 5px;"><b>Welcome, Guest!</b></p>
+
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/register"> <button type="button" class="btn btn-outline-success">Sign Up</button></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/login"> <button type="button" class="btn btn-outline-success">Log In</button></a>
+      </li>
+    </ul>
+    {{ end }}
+  </nav>
+  <div class="categories" style="margin-top:10px">
+    {{range .Tags}}
+    <a href="/main?tag={{.Name}}"><button type="button" class="btn btn-success">{{.Name}}</button></a>
+    {{end}}
+  </div>
+  {{if eq .Posts nil}}
+  <div class="posts mt-4">
+
+  <div class="card mb-3">
+    <div class="card-body">
+        <p class="card-text"><b>No posts yet..</b></p>
+    </div>
+</div>
+  </div>
+{{ end }}
+
+  <div class="posts mt-4">
+    {{ if .IsLogged }}
+    {{ range .Posts }}
+    <div class="card mb-3">
+      <div class="card-body">
+        <p class="card-text"><i>Created by:</i><b> {{ .Author }}</b>,
+          <i>Category:</i>
+          {{ range .Tags }} 
+          {{if ne . "No category"}}
+          <a href="/main?tag={{ . }}">{{ . }}</a>, {{ else }} {{ . }}, {{end}} {{end}} Comment: {{.CommentsCount }} </p> 
+        <a href="/post?id={{ .Id }}"><h4 class="card-title">{{ .Title }}</h4></a>
+        <p class="card-text">{{ .Body }}</p>
+        
+        <form method="post" action="/add-reaction-to-post">
+          <input type="hidden" name="post-id" value="{{ .Id }}">
+          <button class="btn btn-success" name="reaction" value="like">
+            <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i>
+          </button>
+          <b>{{ .ReactionsCount }}</b>
+          <button class="btn btn-danger" name="reaction" value="dislike">
+            <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+    {{ end }}
+    {{ else }}
+    {{ range .Posts }}
+    <div class="card mb-3">
+      <div class="card-body">
+        <p class="card-text"><i>Created by:</i><b> {{ .Author }}</b>,
+                            <i>Category:</i>
+          {{ range .Tags }} <a href="/main?tag={{ . }}">{{ . }}</a>, {{ end }}
+                            Comment: {{.CommentsCount }} </p>
+        <output style="display: none" name="post-id" hidden>{{ .Id }}</output>
+        <a href="/post?id={{ .Id }}"><h4 class="card-title">{{ .Title }}</h4></a>
+        <p class="card-text">{{ .Body }}</p>
+        <b>Likes: {{ .ReactionsCount }}</b>   
+      </div>
+    </div>
+    {{ end }}
+    {{ end }}
+  </div>
+</div>
+{{if eq .Role "moderator"}}
+  {{if ne .Reports nil}}
+    <div id="reportsContainer">
+      {{range .Reports}}
+      <div class="notification">
+        {{if .Status}}
+          Admin accepted your report with ID: {{.Id}}. For reason: {{.Reason}}.
+        {{else}}
+          Admin declined your report with ID: {{.Id}}. For reason: {{.Reason}}.
+        {{end}}
+      </div>
+      {{end}}
+    </div>
+  {{end}}
+{{end}}
+
+{{ if ne .Actions nil}} 
+<div id="actionsContainer" >
+  {{range .Actions}}
+  <a href="/action" style="color:black; text-decoration: none;">
+  <div class="notification" >
+   User <b>{{.ByUser}}</b>  {{ .Action }} your post</p>
+  </div>
+  </a>
+  {{end}}
+</div>
+{{end}}
+
+<footer class="mt-auto" style="background-color: lightblue;">
+  <p style="color:black; margin: auto; text-align:center">© Alem School 2023</p>
+</footer>
+</body>
+</html>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const reportNotifications = document.querySelectorAll('#reportsContainer .notification');
+    reportNotifications.forEach(function(notification) {
+      notification.style.display = 'block';
+
+        // Устанавливаем задержку на 3 секунды перед скрытием уведомления
+        setTimeout(function() {
+            notification.style.display = 'none';
+        }, 8000); // 5000 миллисекунд (5 секунд)
+    });
+
+    const actionNotifications = document.querySelectorAll('#actionsContainer .notification');
+    actionNotifications.forEach(function(notification) {
+        notification.style.display = 'block';
+
+        // Устанавливаем задержку на 3 секунды перед скрытием уведомления
+        setTimeout(function() {
+            notification.style.display = 'none';
+        }, 6000); // 5000 миллисекунд (5 секунд)
+    });
+});
+
+</script>

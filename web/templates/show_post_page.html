@@ -1,0 +1,205 @@
+{{ $UserType := .Role}}
+{{ $CommentAuthor := .Username}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+    <link rel="stylesheet" href="/static/bootstrap2.min.css">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <title>{{ .Posts.Title }}</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+</head>
+<body class="d-flex flex-column min-vh-100" style="background-color:rgba(85, 77, 77, 0.288)">
+<div class="text-center">
+    <a href="/main">
+        <h1 class="display-3">Forum</h1>
+    </a>
+</div>
+<div class="container mt-5">
+    <nav class="navbar navbar-expand-lg  " style="background-color:rgba(0, 102, 255, 0.205); border: blue solid 1px; ">
+        {{ if .IsLogged }}
+        <li class="nav-item" style="list-style-type:none; margin: 5px;">
+            <a class="nav-link" href="/action"><button type="button" class="btn btn-outline-primary" style="color:chartreuse">Actions</button></a>
+          </li>
+        
+      
+        <ul class="navbar-nav ml-auto">
+            {{ if eq .Role "admin"}}
+            <li class="nav-item">
+                <a class="nav-link" href="/admin"> <button type="button" class="btn btn-outline-primary" style="color:chartreuse">Admin</button></a>
+            </li>
+            {{end}}
+            <li class="nav-item">
+                <a class="nav-link" href="/add-post"> <button type="button" class="btn btn-outline-success">Create Post</button></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout"><button type="button" class="btn btn-outline-danger">Log Out</button></a>
+            </li>
+
+        </ul>
+        {{ else }}
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/register"> <button type="button" class="btn btn-outline-success">Sign Up</button></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/login"> <button type="button" class="btn btn-outline-success">Log In</button></a>
+              </li>
+        </ul>
+        {{ end }}
+    </nav>
+</div>
+<div class="container">
+    {{ if .IsLogged }}
+    <div class="card mt-4">
+        <div class="card-body">
+            <p class="card-text"><b>{{ .Posts.Author }}</b>, Category:
+                {{ range .Posts.Tags }}
+                <a href="/main?tag={{ . }}">{{ . }}</a>
+                {{ end }}
+            </p>
+            <h2 class="card-title">{{ .Posts.Title }}</h2>
+            <p class="card-text">{{ .Posts.Body }}</p>
+            {{if .Posts.ImageName}}
+            <img src="/images/{{.Posts.ImageName}}" alt="{{.Posts.ImageName}}" width="800" height="400" style="margin-bottom:10px"><br>
+            {{end}}
+            <form method="post" action="/add-reaction-to-post">
+                <input type="hidden" name="post-id" value="{{ .Posts.Id }}">
+                <button class="btn btn-success" name="reaction" value="like">
+                  <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i>
+                </button>
+                <b>{{.Posts.ReactionsCount}}</b>
+                <button class="btn btn-danger" name="reaction" value="dislike">
+                  <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>
+                </button>
+              </form>
+              <div style="margin-top: 7px;">
+               
+                {{ if or (eq $UserType "admin") (eq $UserType "moderator") (eq .Username .Posts.Author) }}
+                <a href="/delete-post?id={{ .Posts.Id }}" style="display: inline-block;">
+                   <button type="submit" class="btn btn-outline-danger">Delete post</button>
+                </a>
+                {{ end }}
+                {{if eq .Username .Posts.Author}}
+                <a href="/edit-post?id={{ .Posts.Id }}" style="display: inline-block;">
+                    <button type="submit" class="btn btn-outline-primary">Edit post</button>
+                  </a>
+                  
+                  {{end}}
+                    <div class="btn-group-lg" style="display: inline-block;">
+                    {{ if eq $UserType "moderator" }}
+                    <form action="/report-post" method="POST">
+                        <button type="submit" class="btn btn-outline-warning">Report</button>
+                        <input type="hidden" name="post-id" value="{{ .Posts.Id }}">
+                        <label for="report">
+                            <select id="report" name="report" class="form-select" required>
+                                <option selected value="Other">Choose reason</option>
+                                <option value="Spam">Spam</option>
+                                <option value="Censor">Censor</option>
+                                <option value="Bullshit">Bullshit</option>
+                                <option value="Racism">Racism</option>
+                                <option value="Pornography">Pornography</option>
+                            </select>
+                        </label>
+                    </form>
+                    {{ end }}
+                    </div>
+                </div>
+            <form action="/add-comment" method="POST">
+                <div class="form-group">
+                    <textarea class="form-control" style="margin-top: 20px;" name="comment" placeholder="Write comment (min 10 symbols)"></textarea>
+                </div>
+                <button class="btn btn-primary">Comment</button>
+                <input type="hidden" name="post-id" value="{{ .Posts.Id }}">
+            </form>
+        </div>
+    </div>
+    <div class="comments mt-4">
+        {{ range .Posts.Comments }}
+        <div class="card mt-2">
+            <div class="card-body d-flex justify-content-between">
+                <div>
+                    <p class="card-text"><i>Created by:</i> <b>{{ .Author }}</b></p>
+                    <p class="card-text">{{ .Body }}</p>
+                    <form action="/add-reaction-to-comment" method="POST">
+                        <input type="hidden" name="comment-id" value="{{ .Id }}">
+                        <button class="btn btn-success" name="reaction" value="like">
+                            <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i>
+                        </button>
+                        <b>{{.ReactionsCount}}</b>
+                        <button class="btn btn-danger" name="reaction" value="dislike">
+                            <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+                {{if eq $CommentAuthor .Author}}
+                <div style="margin-top:30px; ">
+                    <a href="/delete-comment?id={{ .Id }}" style="text-decoration: none;">
+                        <button type="submit" class="btn btn-outline-danger">Delete comment</button>
+                    </a>
+                    <a href="/edit-comment?id={{ .Id }}" >
+                        <button type="submit" class="btn btn-outline-primary">Edit comment</button>
+                    </a>
+                </div>
+                {{end}}
+            </div>
+        </div>
+        {{ end }}
+    </div>
+    
+    
+    
+    
+    
+    
+    {{ else }}
+    <div class="card mt-4">
+        <div class="card-body">
+            <p class="card-text"><b>{{ .Posts.Author }}</b>, Category:
+                {{ range .Posts.Tags }}
+                <a href="/main?tag={{ . }}">{{ . }}</a>
+                {{ end }}
+            </p>
+            <h2 class="card-title">{{ .Posts.Title }}</h2>
+            <p class="card-text">{{ .Posts.Body }}</p>
+            {{if .Posts.ImageName}}
+            <img src="/images/{{.Posts.ImageName}}" alt="{{.Posts.ImageName}}" width="600" height="400"><br>
+            {{end}}
+            <input type="hidden" name="post-id" value="{{ .Posts.Id }}">
+            
+            <b>Likes: {{.Posts.ReactionsCount}}</b>
+            
+        </div>
+    </div>
+    <div class="comments mt-4">
+        {{ range .Posts.Comments }}
+        <div class="card mt-2">
+            <div class="card-body">
+                <p class="card-text"><i>Created by:</i> <b> {{ .Author }} </b></p>
+                <p class="card-text">{{ .Body }}</p>
+                <button class="btn btn-success" name="reaction" value="like">
+                    <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i>
+                  </button>
+                    <b>{{.ReactionsCount}}</b>
+                  <button class="btn btn-danger" name="reaction" value="dislike">
+                    <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>
+                  </button>
+            </div>
+        </div>
+        
+        {{ end }}
+    </div>
+    <div class="text-center">
+    <a href="/main" class="btn btn-primary mt-4">Back to Main</a>
+    </div>
+
+    {{ end }}
+</div>
+<footer class="mt-auto" style="background-color: lightblue;">
+    <p style="color:black; margin: auto; text-align:center">© Alem School 2023</p>
+  </footer>
+</body>
+</html>

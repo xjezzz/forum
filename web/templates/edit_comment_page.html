@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/bootstrap2.min.css">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <title>Edit comment</title>
+</head>
+<body class="d-flex flex-column min-vh-100" style="background-color:rgba(85, 77, 77, 0.288)">
+<div class="text-center">
+    <a href="/main">
+        <h1 class="display-3">Forum</h1>
+    </a>
+</div>
+<div class="container mt-5">
+    <form action="/edit-comment" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="hidden" name="comment-id" value="{{ .Id }}">
+            <input type="hidden" name="post-id" value="{{ .PostId }}">
+            <label for="comment">Comment</label>
+            <textarea class="form-control" id="comment" rows="4" placeholder="Type here... (min 10 symbols)"  name="comment">{{ .Body }}</textarea>
+            </div>
+        <button type="submit" class="btn btn-primary">Edit comment</button>
+    </form>
+    <input class="btn btn-primary" style="margin-top: 10px;" type="button" value="Cancel" onclick="history.back()">
+</div>
+<footer class="mt-auto" style="background-color: lightblue;">
+    <p style="color:black; margin: auto; text-align:center">© Alem School 2023</p>
+  </footer>
+
+</body>
+</html>

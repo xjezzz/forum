@@ -1,0 +1,119 @@
+{{ $Author := .Username}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forum</title>
+  <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+  <link rel="stylesheet" href="/static/bootstrap2.min.css">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+</head>
+<body class="d-flex flex-column min-vh-100" style="background-color:rgba(85, 77, 77, 0.288)">
+<div class="text-center">
+  <a href="/main">
+    <h1 class="display-3">Forum</h1>
+  </a>
+</div>
+<div class="container mt-5">
+  <nav class="navbar navbar-expand-lg  " style="background-color:rgba(0, 102, 255, 0.205); border: blue solid 1px;">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/add-post"> <button type="button" class="btn btn-outline-success">Create Post</button></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout"><button type="button" class="btn btn-outline-danger">Log Out</button></a>
+      </li>
+
+    </ul>
+  </nav>
+  <div class="categories" style="margin-top:10px">
+    <a href="/action?show=liked-posts"><button type="button" class="btn btn-success">Liked posts</button></a>
+    <a href="/action?show=disliked-posts"><button type="button" class="btn btn-success">Disliked posts</button></a>
+    <a href="/action?show=myposts"><button type="button" class="btn btn-success">My posts</button></a>
+    <a href="/action?show=mycomments"><button type="button" class="btn btn-success">My comments</button></a>
+
+
+  </div>
+
+
+{{ range .Actions }}
+{{if ne $Author .ByUser}}
+<div class="card mb-3" style="margin-top:10px">
+  <div class="card-body">
+    <p class="card-text">User <b>{{.ByUser}}</b>  {{ .Action }} your <b><a href="/post?id={{ .PostId }}">post</a></b></p>
+  </div>
+</div>
+{{ end }}
+{{ end }}
+  {{if eq .Comments nil}}
+  <div class="posts mt-4">
+    {{if eq .Posts nil}}
+    <div class="card mb-3">
+      <div class="card-body">
+        <p class="card-text"><b>No posts found</b></p>
+      </div>
+    </div>
+
+    
+    {{end}}
+
+    {{ range .Posts }}
+    <div class="card mb-3">
+      <div class="card-body">
+        <p class="card-text"><i>Created by:</i><b> {{ .Author }}</b>,
+          <i>Category:</i>
+          {{ range .Tags }} <a href="/main?tag={{ . }}">{{ . }}</a>, {{ end }}
+          Comment: {{.CommentsCount }} </p>
+        <a href="/post?id={{ .Id }}"><h4 class="card-title">{{ .Title }}</h4></a>
+        <p class="card-text">{{ .Body }}</p>
+        <form method="post" action="/add-reaction-to-post">
+          <input type="hidden" name="post-id" value="{{ .Id }}">
+          <button class="btn btn-success" name="reaction" value="like">
+            <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i>
+          </button>
+          <b>{{ .ReactionsCount }}</b>
+          <button class="btn btn-danger" name="reaction" value="dislike">
+            <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>
+          </button>
+        </form>
+        <a href="/delete-post?id={{ .Id }}" style="margin-top: 10px; display: inline-block;">
+          <button type="submit" class="btn btn-outline-danger">Delete post</button>
+        </a>
+        <a href="/edit-post?id={{ .Id }}" style="display: inline-block;">
+          <button type="submit" class="btn btn-outline-primary">Edit post</button>
+        </a>
+      </div>
+    </div>
+    {{ end }}
+    {{else}}
+    <div class="posts mt-4">
+      {{ range .Comments }}
+      <div class="card mb-3">
+          <div class="card-body">
+              <p class="card-text"><a href="/post?id={{ .PostId }}">{{ .PostTitle }}</a></p>
+              <p class="card-text"><b>Comment:</b> {{ .Body }} </p>
+              <a href="/delete-comment?id={{ .Id }}" style="display: inline-block;">
+                  <button type="submit" class="btn btn-outline-danger">Delete comment</button>
+              </a>
+              <a href="/edit-comment?id={{ .Id }}" style="display: inline-block;">
+                  <button type="submit" class="btn btn-outline-danger">Edit comment</button>
+              </a>
+          </div>
+      </div>
+      {{ end }}
+</div>
+{{end}}
+  </div>
+</div>
+
+
+
+<footer class="mt-auto" style="background-color: lightblue;">
+  <p style="color:black; margin: auto; text-align:center">© Alem School 2023</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/bootstrap2.min.css">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <title>Edit post</title>
+</head>
+<body class="d-flex flex-column min-vh-100" style="background-color:rgba(85, 77, 77, 0.288)">
+<div class="text-center">
+    <a href="/main">
+        <h1 class="display-3">Forum</h1>
+    </a>
+</div>
+<div class="container mt-5">
+    <form action="/edit-post" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="hidden" name="id" value="{{ .Id }}">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" placeholder="Enter title... (min 10 symbols)" value="{{ .Title }}" name="title">
+        </div>
+        <div class="form-group">
+            <label for="post">Post</label>
+            <textarea class="form-control" id="post" rows="4" placeholder="Type here... (min 20 symbols)"  name="post">{{ .Body }}</textarea>
+            <div class="form-group mt-3">
+            <input type="file" name="myFile" accept="image/png,image/gif,image/jpeg" />
+            </div>
+            </div>
+        <button type="submit" class="btn btn-primary">Edit post</button>
+    </form>
+    <input class="btn btn-primary" style="margin-top: 10px;" type="button" value="Cancel" onclick="history.back()">
+
+</div>
+<footer class="mt-auto" style="background-color: lightblue;">
+    <p style="color:black; margin: auto; text-align:center">© Alem School 2023</p>
+  </footer>
+
+</body>
+</html>
